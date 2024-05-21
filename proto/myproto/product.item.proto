@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package proto;
+
+message ProductItem {
+  string barcode = 1;
+  string name = 2;
+  string description = 3;
+  string brand = 4;
+  float price = 5;
+  int32 quality = 6;
+}
