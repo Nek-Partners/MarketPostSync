@@ -1,22 +1,34 @@
 find_package(Threads)
 find_package(gRPC CONFIG REQUIRED)
 
-# Manually specify the paths to MySQL libraries and includes
-set(MySQL_INCLUDE_DIR /opt/homebrew/Cellar/mysql/8.3.0_1/include/mysql)
-set(MySQL_LIBRARY_DIR /opt/homebrew/Cellar/mysql/8.3.0_1/lib)
-set(MySQL_LIBRARIES /opt/homebrew/Cellar/mysql/8.3.0_1/lib/libmysqlclient.a)
+add_executable(client
+        main.cpp
+        src/Database.cpp
+)
 
-include_directories(${MySQL_INCLUDE_DIR})
-link_directories(${MySQL_LIBRARY_DIR})
+set(MYSQL_DIR ${CMAKE_SOURCE_DIR}/third_party/mysql)
+set(MYSQL_INCLUDE_DIR ${MYSQL_DIR}/include)
 
-# Add the source files of your project
-add_executable(client src/main.cpp)
+if (WIN32)
+    set(MYSQL_LIB "${MYSQL_DIR}/winx64/lib64/vs14/mysqlcppconn-static.lib")
+elseif (APPLE)
+    set(MYSQL_LIB "${MYSQL_DIR}/macos-arm64/lib64/libmysqlcppconn-static.a")
+else ()
+    message(FATAL_ERROR "Unsupported operating system")
+endif ()
 
-# Link the mysql-connector-cpp library
+include_directories(
+        include/database
+        include/database/entity
+        ${MYSQL_INCLUDE_DIR}/jdbc
+        ${MYSQL_INCLUDE_DIR}/jdbc/cppconn
+        ${MYSQL_INCLUDE_DIR}/mysql
+)
+
 target_link_libraries(client
         PRIVATE
         myproto
-        ${MySQL_LIBRARIES}
+        ${MYSQL_LIB}
         gRPC::grpc
         gRPC::grpc++
 )

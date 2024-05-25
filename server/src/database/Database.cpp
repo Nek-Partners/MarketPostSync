@@ -60,7 +60,7 @@ namespace Marketplace
     {
         PGresult* res = PQexecParams(_conn,
                                      sql,
-                                     5,
+                                     4,
                                      nullptr,
                                      params,
                                      nullptr,

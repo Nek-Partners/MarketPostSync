@@ -10,7 +10,7 @@
 
 namespace Marketplace
 {
-    constexpr auto conninfo = "dbname=kk_market user=postgres password=postgres hostaddr=127.0.0.1 port=5432";
+    constexpr auto conninfo = "dbname=mydatabase user=myuser password=mysecretpassword hostaddr=127.0.0.1 port=5432";
 
     class Database
     {

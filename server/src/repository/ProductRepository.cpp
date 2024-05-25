@@ -32,7 +32,7 @@ namespace Marketplace
         params[3] = std::to_string(entity.quality).c_str();
 
         const auto sql =
-            "INSERT INTO product_item (productId, marketId, price, quality) VALUES ($1, $2, $3, $4)";
+            R"(INSERT INTO product_item ("productId", "marketId", "price", "quality") VALUES ($1, $2, $3, $4))";
 
         db.insert(sql, params);
     }
