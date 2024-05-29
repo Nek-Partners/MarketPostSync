@@ -7,7 +7,14 @@ add_executable(client
 )
 
 set(MYSQL_DIR ${CMAKE_SOURCE_DIR}/third_party/mysql)
-set(MYSQL_INCLUDE_DIR ${MYSQL_DIR}/include)
+
+if (WIN32)
+    set(MYSQL_INCLUDE_DIR ${MYSQL_DIR}/winx64/include)
+elseif (APPLE)
+    set(MYSQL_INCLUDE_DIR ${MYSQL_DIR}/include/include)
+else ()
+    message(FATAL_ERROR "Unsupported operating system")
+endif ()
 
 if (WIN32)
     set(MYSQL_LIB "${MYSQL_DIR}/winx64/lib64/vs14/mysqlcppconn-static.lib")

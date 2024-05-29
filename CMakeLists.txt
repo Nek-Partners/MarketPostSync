@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-# Use the toolchain file for cross-compilation
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/toolchain.cmake")
-
 # Set the CMake policy CMP0068 to NEW
 if(POLICY CMP0068)
     cmake_policy(SET CMP0068 NEW)
