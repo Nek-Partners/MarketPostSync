@@ -1,30 +1,53 @@
-# Use the latest Windows Server Core image with CMake and Visual Studio Build Tools
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+# Use an official Ubuntu as a parent image
+FROM ubuntu:20.04
 
-# Install Chocolatey
-RUN powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV MY_INSTALL_DIR=/usr/local
 
-# Install CMake, Visual Studio Build Tools, and additional packages
-RUN choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=System' && \
-    choco install -y visualstudio2019buildtools --package-parameters "--includeRecommended --includeOptional --add Microsoft.VisualStudio.Workload.VCTools" && \
-    choco install -y git && \
-    choco install -y grpc && \
-    choco install -y mysql-connector-cpp
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    wget \
+    unzip \
+    autoconf \
+    libtool \
+    pkg-config \
+    ninja-build \
+    curl \
+    protobuf-compiler \
+    libprotobuf-dev \
+    libpq-dev \
+    zlib1g-dev \
+    libssl-dev \
+    libc-ares-dev
 
-# Set the working directory
-WORKDIR /app
+# Install gRPC and Protobuf from source
+RUN git clone --recurse-submodules -b v1.40.0 https://github.com/grpc/grpc /grpc && \
+    cd /grpc && \
+    mkdir -p cmake/build && \
+    cd cmake/build && \
+    cmake -DgRPC_INSTALL=ON \
+          -DgRPC_BUILD_TESTS=OFF \
+          -DgRPC_ABSL_PROVIDER=package \
+          -DgRPC_CARES_PROVIDER=package \
+          -DgRPC_PROTOBUF_PROVIDER=package \
+          -DgRPC_SSL_PROVIDER=package \
+          -DgRPC_ZLIB_PROVIDER=package \
+          -DCMAKE_INSTALL_PREFIX=$MY_INSTALL_DIR \
+          ../.. && \
+    make -j$(nproc) && \
+    make install
 
-# Copy the project files to the container
-COPY . .
+# Copy the project files into the Docker image
+COPY . /my_grpc_project
+WORKDIR /my_grpc_project
 
-# Create the build directory
-RUN mkdir build
+# Configure and build the project
+RUN cmake -G Ninja .
+RUN cmake --build .
 
-# Configure the project with the necessary libraries
-RUN cmake -B build -DCMAKE_BUILD_TYPE=Release -DgRPC_DIR="C:/Program Files (x86)/grpc" -DMySQL_DIR="C:/Program Files/MySQL/MySQL Connector C++ 8.0"
-
-# Build the project
-RUN cmake --build build --config Release
-
-# Set the entrypoint to the built application (assuming the executable is named 'app.exe')
-ENTRYPOINT ["build\\Release\\app.exe"]
+# Run the application (example)
+CMD ["./MyGRPCProject"]
