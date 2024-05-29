@@ -1,5 +1,5 @@
 find_package(Threads)
-find_package(gRPC CONFIG REQUIRED)
+find_package(gRPC REQUIRED)
 find_package(PostgreSQL REQUIRED)
 
 include_directories(
