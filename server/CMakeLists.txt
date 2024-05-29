@@ -1,6 +1,3 @@
-set(CMAKE_PREFIX_PATH "/usr/local" ${CMAKE_PREFIX_PATH})
-
-
 find_package(Threads)
 find_package(gRPC CONFIG REQUIRED)
 find_package(PostgreSQL REQUIRED)
