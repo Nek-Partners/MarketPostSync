@@ -19,9 +19,9 @@ set(CMAKE_INSTALL_NAME_DIR "@rpath")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_subdirectory(proto)
+#[[add_subdirectory(proto)
 add_subdirectory(server)
-add_subdirectory(client)
+add_subdirectory(client)]]
 
 find_package(Protobuf REQUIRED)
 find_package(gRPC REQUIRED)
