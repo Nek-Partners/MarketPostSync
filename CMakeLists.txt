@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.22.1)
 
+# Use the toolchain file for cross-compilation
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/toolchain.cmake")
+
 # Set the CMake policy CMP0068 to NEW
 if(POLICY CMP0068)
     cmake_policy(SET CMP0068 NEW)
@@ -20,8 +23,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_subdirectory(proto)
-add_subdirectory(server)
-#add_subdirectory(client)
+#add_subdirectory(server)
+add_subdirectory(client)
 
 find_package(Protobuf REQUIRED)
 find_package(gRPC REQUIRED)
