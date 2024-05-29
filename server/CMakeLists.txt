@@ -1,4 +1,5 @@
 find_package(Threads)
+find_package(Protobuf REQUIRED)
 find_package(gRPC REQUIRED)
 find_package(PostgreSQL REQUIRED)
 
