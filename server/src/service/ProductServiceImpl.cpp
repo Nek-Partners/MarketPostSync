@@ -26,7 +26,7 @@ namespace Marketplace {
 
             const auto product_item = new ProductItemEntity();
             product_item->productId = product_entity->id;
-            product_item->marketId = "099f16b7-27d7-4fe5-918b-8d3eed942adb";
+            product_item->marketId = "05550bfc-cdbe-45a7-ad8f-f9c7632ae79e";
             product_item->price = item.price();
             product_item->quality = item.quality();
 
