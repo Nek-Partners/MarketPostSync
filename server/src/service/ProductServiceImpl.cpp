@@ -15,7 +15,7 @@ namespace Marketplace {
 
         for (const auto& item : items)
         {
-            std::count << "Process item with name " << item.name() << std::endl;
+            std::cout << "Process item with name " << item.name() << std::endl;
 
             const auto product_entity = new ProductEntity();
             product_entity->barcode = item.barcode();
