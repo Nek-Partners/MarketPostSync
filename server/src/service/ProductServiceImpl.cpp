@@ -15,7 +15,7 @@ namespace Marketplace {
 
         for (const auto& item : items)
         {
-            std::cout << "Process item with name " << item.name() << std::endl;
+            std::cout << "Process item with name " << item.name() << " and barcode " << item.barcode() << std::endl;
 
             const auto product_entity = new ProductEntity();
             product_entity->barcode = item.barcode();
@@ -24,17 +24,25 @@ namespace Marketplace {
             product_entity->brand = "";
             product_entity->active = false;
 
-            product_repository->save(*product_entity);
+            if (product_repository->save(*product_entity))
+            {
+                const auto product_item = new ProductItemEntity();
+                product_item->productId = product_entity->id;
+                product_item->marketId = "05550bfc-cdbe-45a7-ad8f-f9c7632ae79e";
+                product_item->price = item.price();
+                product_item->quality = item.quality();
 
-            const auto product_item = new ProductItemEntity();
-            product_item->productId = product_entity->id;
-            product_item->marketId = "05550bfc-cdbe-45a7-ad8f-f9c7632ae79e";
-            product_item->price = item.price();
-            product_item->quality = item.quality();
+                if (!product_repository->save(*product_item))
+                {
+                    std::cout << "Product item Save fail" << std::endl;
+                }
 
-            product_repository->save(*product_item);
+                delete product_item;
+            } else
+            {
+                std::cout << "Product Save fail" << std::endl;
+            }
 
-            delete product_item;
             delete product_entity;
         }
 

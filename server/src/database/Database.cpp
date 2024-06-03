@@ -27,8 +27,10 @@ namespace Marketplace
         std::cout << "Database disconnected" << std::endl;
     }
 
-    void Database::insert(const char* sql, const char* const* params, std::string& result) const
+    bool Database::insert(const char* sql, const char* const* params, std::string& result) const
     {
+        bool data = false;
+
         PGresult* res = PQexecParams(_conn,
                                      sql,
                                      5,
@@ -40,24 +42,28 @@ namespace Marketplace
 
         if (PQresultStatus(res) != PGRES_COMMAND_OK)
         {
-            std::cerr << "INSERT command failed: " << PQerrorMessage(_conn) << std::endl;
+            data = false;
         }
 
         if (PQntuples(res) == 1)
         {
             result = PQgetvalue(res, 0, 0);
-            std::cout << "Inserted item with result: " << result << std::endl;
+            data = true;
         }
         else
         {
-            std::cerr << "Error: No id returned." << std::endl;
+            data = false;
         }
 
         PQclear(res);
+
+        return data;
     }
 
-    void Database::insert(const char* sql, const char* const* params) const
+    bool Database::insert(const char* sql, const char* const* params) const
     {
+        bool data = false;
+
         PGresult* res = PQexecParams(_conn,
                                      sql,
                                      4,
@@ -70,9 +76,15 @@ namespace Marketplace
         if (PQresultStatus(res) != PGRES_COMMAND_OK)
         {
             std::cerr << "INSERT command failed: " << PQerrorMessage(_conn) << std::endl;
+            data = false;
+        } else
+        {
+            data = true;
         }
 
         PQclear(res);
+
+        return data;
     }
 
 } // Marketplace

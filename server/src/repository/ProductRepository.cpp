@@ -6,7 +6,7 @@
 
 namespace Marketplace
 {
-    void ProductRepository::save(ProductEntity& entity) const
+    bool ProductRepository::save(ProductEntity& entity) const
     {
         const char* params[5];
 
@@ -19,10 +19,10 @@ namespace Marketplace
         const auto sql =
             "INSERT INTO product (barcode, name, description, brand, active) VALUES ($1, $2, $3, $4, $5) RETURNING id::text";
 
-        db.insert(sql, params, entity.id);
+        return db.insert(sql, params, entity.id);
     }
 
-    void ProductRepository::save(const ProductItemEntity& entity) const
+    bool ProductRepository::save(const ProductItemEntity& entity) const
     {
         const char* params[4];
 
@@ -34,7 +34,7 @@ namespace Marketplace
         const auto sql =
             R"(INSERT INTO product_item ("productId", "marketId", "price", "quality") VALUES ($1, $2, $3, $4))";
 
-        db.insert(sql, params);
+        return db.insert(sql, params);
     }
 
 }

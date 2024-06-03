@@ -16,8 +16,8 @@ namespace Marketplace
         Database& db = Database::getInstance();
 
     public:
-        void save(ProductEntity& entity) const;
-        void save(const ProductItemEntity& entity) const;
+        bool save(ProductEntity& entity) const;
+        bool save(const ProductItemEntity& entity) const;
     };
 }
 

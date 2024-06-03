@@ -24,9 +24,9 @@ namespace Marketplace
         Database(const Database&) = delete;
         Database& operator=(const Database&) = delete;
 
-        void insert(const char* sql, const char* const* params, std::string& result) const;
+        bool insert(const char* sql, const char* const* params, std::string& result) const;
 
-        void insert(const char* sql, const char* const* params) const;
+        bool insert(const char* sql, const char* const* params) const;
 
     private:
         PGconn* _conn;
