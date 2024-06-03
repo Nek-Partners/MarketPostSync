@@ -8,13 +8,15 @@
 namespace Marketplace {
 
     grpc::Status ProductServiceImpl::Upload(grpc::ServerContext* context, const proto::ProductsUploadRequest* request, proto::Response* response) {
-        // Print the received request (for demonstration purposes)
-        std::cout << "Received ProductsUploadRequest" << std::endl;
-
         auto items = request->items();
+
+        // Print the received request (for demonstration purposes)
+        std::cout << "Received ProductsUploadRequest " << "size = " << items.size() << std::endl;
 
         for (const auto& item : items)
         {
+            std::count << "Process item with name " << item.name() << std::endl;
+
             const auto product_entity = new ProductEntity();
             product_entity->barcode = item.barcode();
             product_entity->name = item.name();

@@ -8,12 +8,13 @@ Marketplace::Database& db = Marketplace::Database::getInstance();
 
 int main(int argc, char* argv[])
 {
-    auto dbProducts = db.findAll();
-
-    proto::Response result;
-
     // Setup request
     proto::ProductsUploadRequest product_upload_request;
+    proto::Response result;
+
+    std::vector<ProductEntity> dbProducts;
+
+    dbProducts = db.findAll();
 
     for (auto& [barcode, name, price] : dbProducts)
     {
@@ -26,7 +27,7 @@ int main(int argc, char* argv[])
     }
 
     // Call
-    const auto channel = CreateChannel("localhost:50051", grpc::InsecureChannelCredentials());
+    const auto channel = CreateChannel("146.190.24.131:50051", grpc::InsecureChannelCredentials());
     const std::unique_ptr<proto::ProductService::Stub> stub = proto::ProductService::NewStub(channel);
 
     grpc::ClientContext context;
