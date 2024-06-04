@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up vcpkg
-        uses: lukka/run-vcpkg@v8
+        uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitURL: 'https://github.com/microsoft/vcpkg.git'
           vcpkgCommitId: 'latest'
