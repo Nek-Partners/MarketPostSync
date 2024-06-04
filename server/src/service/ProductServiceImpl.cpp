@@ -15,7 +15,7 @@ namespace Marketplace {
 
         for (const auto& item : items)
         {
-            std::cout << "Process item with name " << item.name() << " and barcode " << item.barcode() << std::endl;
+            //std::cout << "Process item with name " << item.name() << " and barcode " << item.barcode() << std::endl;
 
             const auto product_entity = new ProductEntity();
             product_entity->barcode = item.barcode();
@@ -40,7 +40,7 @@ namespace Marketplace {
                 delete product_item;
             } else
             {
-                std::cout << "Product Save fail" << std::endl;
+                std::cout << "Product Save fail of " << "barcode " << item.barcode() << std::endl;
             }
 
             delete product_entity;

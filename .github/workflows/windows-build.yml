@@ -1,0 +1,35 @@
+name: Windows Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up vcpkg
+        uses: lukka/run-vcpkg@v8
+        with:
+          vcpkgGitURL: 'https://github.com/microsoft/vcpkg.git'
+          vcpkgCommitId: 'latest'
+
+      - name: Configure CMake
+        run: cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Archive Release
+        uses: actions/upload-artifact@v2
+        with:
+          name: my-app-release
+          path: build/Release/
