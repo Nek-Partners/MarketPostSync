@@ -7,10 +7,7 @@ set(MYSQL_DIR ${CMAKE_SOURCE_DIR}/third_party/mysql)
 
 if (WIN32)
     set(MYSQL_INCLUDE_DIR ${MYSQL_DIR}/winx64/include)
-    set(MYSQL_LIB
-            "${MYSQL_DIR}/winx64/lib64/vs14/mysqlcppconn-static.lib"
-            "${MYSQL_DIR}/winx64/lib64/mysqlcppconn-9-vs14.pdb"
-    )
+    set(MYSQL_LIB "${MYSQL_DIR}/winx64/lib64/mysqlcppconn-9-vs14.dll")
 elseif (APPLE)
     set(MYSQL_INCLUDE_DIR ${MYSQL_DIR}/macos-arm64/include)
     set(MYSQL_LIB "${MYSQL_DIR}/macos-arm64/lib64/libmysqlcppconn-static.a")
