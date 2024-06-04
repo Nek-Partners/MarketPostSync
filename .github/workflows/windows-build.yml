@@ -21,17 +21,11 @@ jobs:
         with:
           vcpkgGitURL: 'https://github.com/microsoft/vcpkg.git'
           vcpkgCommitId: 'latest'
-          vcpkgDirectory: '${{ runner.temp }}/vcpkg'
-
-      - name: Install dependencies with vcpkg
-        run: |
-          ${{ runner.temp }}/vcpkg/vcpkg remove --outdated
-          ${{ runner.temp }}/vcpkg/vcpkg install grpc protobuf --triplet x64-windows
 
       - name: Configure CMake
-        run: cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=${{ runner.temp }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        run: cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
 
-      - name: Build client
+      - name: Build
         run: cmake --build build --target client --config Release
 
       - name: Archive Release
