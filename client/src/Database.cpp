@@ -14,6 +14,8 @@ namespace Marketplace
         // Create a statement
         sql::Statement* stmt = con->createStatement();
 
+        stmt->execute("SET NAMES 'utf8'");
+
         // Execute the query
         sql::ResultSet* res = stmt->executeQuery("SELECT barcode, name, price FROM products");
 

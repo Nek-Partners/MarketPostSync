@@ -1,6 +1,24 @@
+cmake_minimum_required(VERSION 3.22.1)
+
+# Set the CMake policy CMP0068 to NEW
+if(POLICY CMP0068)
+    cmake_policy(SET CMP0068 NEW)
+endif()
+
+project(POSIntegrate)
+
+# Set the C++ standard
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Enable RPATH settings
+set(CMAKE_BUILD_WITH_INSTALL_NAME_DIR ON)
+set(CMAKE_INSTALL_NAME_DIR "@rpath")
+
 # Find necessary packages
 find_package(Threads)
 find_package(gRPC CONFIG REQUIRED)
+find_package(Protobuf REQUIRED)
 
 # Set MySQL directory based on OS
 set(MYSQL_DIR ${CMAKE_SOURCE_DIR}/third_party/mysql)
@@ -20,6 +38,8 @@ include_directories(
         include/database
         include/database/entity
         ${MYSQL_INCLUDE_DIR}
+        ${Protobuf_INCLUDE_DIRS}
+        ${gRPC_INCLUDE_DIRS}
 )
 
 # Add the executable
@@ -35,6 +55,7 @@ target_link_libraries(client
         ${MYSQL_LIB}
         gRPC::grpc
         gRPC::grpc++
+        ${Protobuf_LIBRARIES}
 )
 
 # Ensure the required directories are included in the project
