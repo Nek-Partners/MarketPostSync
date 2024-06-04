@@ -17,15 +17,21 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up vcpkg
-        uses: lukka/run-vcpkg@v11
+        uses: lukka/run-vcpkg@v12
         with:
           vcpkgGitURL: 'https://github.com/microsoft/vcpkg.git'
           vcpkgCommitId: 'latest'
+          vcpkgDirectory: '${{ runner.temp }}/vcpkg'
+
+      - name: Install dependencies with vcpkg
+        run: |
+          ${{ runner.temp }}/vcpkg/vcpkg remove --outdated
+          ${{ runner.temp }}/vcpkg/vcpkg install grpc protobuf --triplet x64-windows
 
       - name: Configure CMake
-        run: cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake
+        run: cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=${{ runner.temp }}/vcpkg/scripts/buildsystems/vcpkg.cmake
 
-      - name: Build
+      - name: Build client
         run: cmake --build build --target client --config Release
 
       - name: Archive Release
