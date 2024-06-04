@@ -37,7 +37,7 @@ target_link_libraries(client
 
 target_link_libraries(client
         LINK_PUBLIC
-        #${MYSQL_LIB}
+        ${MYSQL_LIB}
 )
 
 # Ensure the required directories are included in the project
