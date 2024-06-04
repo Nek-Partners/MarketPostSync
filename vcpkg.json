@@ -1,5 +1,6 @@
 {
   "name": "myapp",
   "version-string": "1.0.0",
-  "dependencies": []
+  "dependencies": [],
+  "builtin-baseline": "39096"
 }
