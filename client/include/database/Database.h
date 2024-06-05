@@ -11,9 +11,9 @@
 #include "ProductEntity.h"
 
 constexpr auto host = "tcp://127.0.0.1:3306";
-constexpr auto user = "root";
-constexpr auto password = "your_password";
-constexpr auto schema = "your_database";
+constexpr auto user = "avera_admin";
+constexpr auto password = "parviz1997avera";
+constexpr auto schema = "avera";
 
 namespace Marketplace
 {

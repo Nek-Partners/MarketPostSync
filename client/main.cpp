@@ -12,9 +12,7 @@ int main(int argc, char* argv[])
     proto::ProductsUploadRequest product_upload_request;
     proto::Response result;
 
-    std::vector<ProductEntity> dbProducts;
-
-    dbProducts = db.findAll();
+    std::vector<ProductEntity> dbProducts = db.findAll();
 
     for (auto& [barcode, name, price] : dbProducts)
     {
@@ -35,6 +33,8 @@ int main(int argc, char* argv[])
 
     // Output result
     std::cout << "I got: " << result.message() << std::endl;
+
+    system("pause");
 
     return 0;
 }
