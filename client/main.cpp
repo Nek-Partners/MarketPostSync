@@ -14,14 +14,14 @@ int main(int argc, char* argv[])
 
     std::vector<ProductEntity> dbProducts = db.findAll();
 
-    for (auto& [barcode, name, price] : dbProducts)
+    for (auto& [barcode, name, price, quality] : dbProducts)
     {
         proto::ProductItem* item = product_upload_request.add_items();
         item->set_barcode(barcode);
         item->set_name(name);
         item->set_price(price);
         item->set_description("");
-        item->set_quality(0);
+        item->set_quality(quality);
     }
 
     // Call
