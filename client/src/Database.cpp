@@ -17,7 +17,7 @@ namespace Marketplace
         stmt->execute("SET NAMES 'utf8'");
 
         // Execute the query
-        sql::ResultSet* res = stmt->executeQuery("SELECT barcode, name, price FROM products");
+        sql::ResultSet* res = stmt->executeQuery("SELECT barcode, name, price, storage_qty FROM products");
 
         while (res->next()) {
             const std::string barcode = res->getString("barcode");

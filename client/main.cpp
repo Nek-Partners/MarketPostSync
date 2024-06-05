@@ -4,15 +4,22 @@
 #include <grpcpp/create_channel.h>
 #include "Database.h"
 
-Marketplace::Database& db = Marketplace::Database::getInstance();
 
 int main(int argc, char* argv[])
 {
+    std::cout << "Satrt" << std::endl;
+
+    const Marketplace::Database& db = Marketplace::Database::getInstance();
+
+    std::cout << "Db connected" << std::endl;
+
     // Setup request
     proto::ProductsUploadRequest product_upload_request;
     proto::Response result;
 
     std::vector<ProductEntity> dbProducts = db.findAll();
+
+    std::cout << "Products found" << std::endl;
 
     for (auto& [barcode, name, price, quality] : dbProducts)
     {
