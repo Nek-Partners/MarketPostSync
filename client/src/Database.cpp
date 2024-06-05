@@ -23,11 +23,13 @@ namespace Marketplace
             const std::string barcode = res->getString("barcode");
             const std::string name = res->getString("name");
             const long double price = res->getDouble("price");
+            const int qty = res->getInt("storage_qty");
 
             ProductEntity product_entity;
             product_entity.barcode = barcode;
             product_entity.name = name;
             product_entity.price = static_cast<float>(price);
+            product_entity.quality = qty;
 
             result.push_back(product_entity);
         }

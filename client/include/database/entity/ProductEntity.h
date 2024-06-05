@@ -11,6 +11,7 @@ struct ProductEntity
     std::string barcode;
     std::string name;
     float price;
+    int quality;
 };
 
 #endif //PRODUCTENTITY_H
